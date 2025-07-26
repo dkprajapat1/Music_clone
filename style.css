@@ -1,0 +1,421 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.flex {
+    display: flex;
+    gap: 30px;
+}
+
+body {
+    background-color: black;
+}
+
+.navbar {
+    color: white;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.navbar img {
+    filter: invert(1);
+    margin: 0px 0px;
+    border: 2px solid white;
+}
+
+.left {
+    text-align: center;
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+}
+
+.left>:nth-child(2),
+.left>:nth-child(3) {
+    background-color: rgb(219, 219, 219);
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.right {
+    align-items: center;
+    margin: 0px 20px;
+}
+
+ul {
+    color: white;
+    list-style: none;
+}
+
+.playlist img {
+    filter: invert(1);
+}
+
+.playlist {
+    overflow: auto;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.playlist ul li {
+    justify-self: center;
+    border: 2px solid white;
+    padding: 20px 20px;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    height: 20px;
+    align-items: center;
+    margin: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.playlist>ul li:hover {
+    background-color: rgba(255, 255, 255, 0.251);
+}
+
+
+
+.installbtn,
+.signupbtn {
+    color: gray;
+    background: none;
+    font-weight: bold;
+    border: none;
+    font-size: large;
+}
+
+.loginbtn {
+    color: black;
+    font-weight: bold;
+    background-color: white;
+    border-radius: 20px;
+    padding: 10px 20px;
+    border: none;
+}
+
+.mainbody {
+    display: flex;
+    gap: 10px;
+    margin: 0px 10px;
+}
+
+.leftbox {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30vw;
+    height: 90vh;
+    border-radius: 10px;
+    background-color: rgb(27, 27, 27);
+    color: white;
+    z-index: 1;
+
+}
+
+.heading {
+    display: flex;
+    justify-content: space-between;
+}
+
+#hamburger {
+    display: none;
+    background-color: rgba(210, 210, 210, 0.786);
+    padding: 7px;
+    margin: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#close {
+    display: none;
+    margin: 20px;
+    filter: invert(1);
+    background-color: rgba(182, 182, 182, 0.899);
+    padding: 3px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.footer {
+    padding: 20px;
+}
+
+.footer a {
+    text-decoration: none;
+    color: gray;
+    font-size: small;
+    margin: 10px;
+
+}
+
+.rightbox {
+    width: 100vw;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+
+}
+
+.top {
+    background: linear-gradient(to bottom, rgba(111, 111, 111, 0.403), rgb(27, 27, 27));
+    border-radius: 10px;
+    width: 100%;
+    height: 80vh;
+    color: white;
+
+}
+
+.cards {
+    height: 80%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+    overflow-x:hidden;
+    margin: 20px;
+}
+
+.cards>ul {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.cards>ul li {
+    list-style: none;
+    height: fit-content;
+}
+
+.card {
+    width: 10vw;
+    object-fit: cover;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 0px;
+    height: fit-content;
+}
+
+.card:hover {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(105, 105, 105, 0.299));
+}
+
+.card * {
+    margin: 5px 0px;
+}
+
+.card img {
+    width: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.trackname {
+    color: white;
+    padding: 10px;
+    width: 40%;
+    font-weight: bold;
+    font-size: medium;
+    font-family: 'Courier New', Courier, monospace;
+    margin-left: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ptop {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    margin: 0px 20px;
+}
+
+.playbuttons {
+
+    background-color: rgb(36, 36, 36);
+    width: 100%;
+    justify-self: center;
+    text-align: center;
+    padding: 10px 0px;
+    border-radius: 20px;
+    /* color: white;    updated in js*/
+
+}
+
+.playbuttons img {
+    filter: invert(1);
+    cursor: pointer;
+}
+
+.trackbar {
+    width: 95%;
+    height: 8px;
+    justify-self: center;
+    background-color: black;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.point {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background-color: white;
+    position: relative;
+    top: -3px;
+    transition: all 0.5s;
+
+}
+
+.songname {
+    /* background-color: green; */
+    width: 70%;
+    height: 80%;
+    overflow: hidden;
+}
+
+.welcome {
+    align-items: center;
+    text-align: center;
+    width: 95%;
+    justify-self: center;
+}
+
+.controls {
+    width: 55%;
+    display: flex;
+    justify-content: space-between;
+}
+.volume{
+  display: flex;
+  align-content: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+#volume{
+    width: max(80px , 6vw);
+    cursor: pointer;
+    
+}
+
+.color_play{
+    height: 40px;
+    position: relative;
+    filter: opacity(0%);
+    top:-94px;
+    right: -42px;
+    transition: all 0.5s;
+}
+.color_play:hover{
+     top:-110px;
+     filter: opacity(100%);
+    height: 40px;
+}
+@media only screen and (max-width: 1200px) {
+    .leftbox {
+        background-color: rgba(39, 39, 39, 0.923);
+        position: absolute;
+        left: -200%;
+        transition: all 0.5s;
+        width: 95%;
+        height: 100vh;
+    }
+
+    #hamburger {
+        display: inherit;
+    }
+
+    #close {
+        display: inherit;
+    }
+
+    .left>:nth-child(2),
+    .left>:nth-child(3) {
+        display: none;
+    }
+
+    .rightbox {
+        height: 100vh;
+        width: 100vh;
+        margin: auto;
+    }
+
+    .list {
+        width: 0px;
+        margin: 0px;
+        padding: 0px;
+        font-size: 0px;
+    }
+
+    .bar {
+        display: none;
+    }
+ .top {
+        height: 76vh;
+       
+    }
+
+    .cards {
+        /* border: 2px solid wheat; */
+        height: 65vh;
+        text-align: center;
+        justify-items: center;
+    }
+
+    .card {
+        width: 80vw;
+        object-fit: cover;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 0px;
+        height: fit-content;
+    }
+
+    .cards>ul {
+        justify-content: center;
+    }
+
+    .controls {
+        width: 100%;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .trackname {
+        height: 20px;
+        /* border: 2px solid wheat; */
+        overflow: hidden;
+    }
+    .installbtn,
+    .signupbtn {
+        font-size: medium;
+    }
+
+    .loginbtn {
+        font-size: medium;
+        padding: 5px 8px;
+    }
+
+    .right {
+        margin: 0px 10px;
+    }
+
+    .ptop {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: space-between;
+        color: white;
+        margin: 0px 20px;
+    }
+
+    .trackbar {
+        margin-top: 20px;
+    }
+
+    .flex {
+        display: flex;
+        gap: 10px;
+    }
+}

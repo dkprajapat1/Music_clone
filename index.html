@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify - Web Player: Music for everyone</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="add.css">
+</head>
+
+<body>
+    <div class="navbar flex">
+        <div class="left">
+            <img src="svg/logo.svg" width="40px" alt="Spotify">
+            <img src="svg/home.svg" alt="home">
+            <img src="svg/search.svg" alt="search">
+            <img id="hamburger" src="svg/hamburger.svg" alt="playlist song">
+        </div>
+        <div class="right flex ">
+            <ul class="flex list">
+                <li> Premium</li>
+                <li> Support</li>
+            </ul>
+            <div class="bar">|</div>
+            <div class="buttons flex">
+                <button class="installbtn">install</button>
+                <button class="signupbtn">sign up</button>
+                <button class="loginbtn">log in</button>
+            </div>
+        </div>
+    </div>
+
+    <main class="mainbody">
+
+        <div class="leftbox">
+            <div class="heading">
+                <h3 class="padding">Your Library</h3>
+                <img id="close" src="svg/close.svg" alt="">
+            </div>
+            <div class="playlist">
+                <ul>
+                    <div class="welcome">
+                        <strong>
+                            <h3>🎵 Music Player Project 🎵</h3>
+                        </strong>
+                        <p>
+                            This is a personal project created for learning and demonstration purposes only.
+                            </p>
+                            <p>
+                            It is built using a combination of HTML, CSS, and JavaScript, focusing on front-end
+                            development.
+                            </p>
+                            <p>
+                            The music library will appear once a playlist is selected.
+                            Some features are still under progress, and this is not a fully functional or scaled
+                            product.
+                            Thanks for visiting and exploring the project!
+                        </p>
+                    </div>
+                </ul>
+            </div>
+            <footer class="footer">
+                <a href="#">Legal</a>
+                <a href="#">Safety & Privacy Center</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Cookies</a>
+                <a href="#">About Ads</a>
+                <a href="#">Accessibility</a>
+            </footer>
+        </div>
+
+
+
+
+        <div class="rightbox">
+            <div class="top">
+                <h2 class="padding">Trending Song</h2>
+                <div class="cards">
+                    <ul>
+                        <!-- playlist folders -->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bottom">
+                <div class="playbuttons">
+                    <div class="ptop">
+                        <div class="trackname"></div>
+                        <div class="controls">
+                            <div>
+                                <img id="back" src="svg/left.svg" alt="left">
+                                <img id="play" src="svg/play.svg" alt="play">
+                                <img id="next" src="svg/right.svg" alt="right">
+                            </div>
+                            <div class="volume">
+                                <img src="svg/volume.svg" alt="">
+                                <input id="volume" type="range">
+                            </div>
+                            <div class="time">00:00/00:00</div>
+                        </div>
+                    </div>
+
+                    <div class="trackbar"> <!--  trackbar -->
+                        <div class="point"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+
+    <script src="script.js"></script>
+    <!-- <script src="try.js"></script> -->
+</body>
+
+</html>

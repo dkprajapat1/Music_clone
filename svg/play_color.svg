@@ -1,0 +1,19 @@
+<svg width="3" height="3" viewBox="0 0 3 3"
+     xmlns="http://www.w3.org/2000/svg">
+
+  <style>
+    .circle {
+      fill: #28a745;
+    }
+
+    .play {
+      fill: white;
+    }
+  </style>
+
+  <!-- Green Circle (r = 1.5) -->
+  <circle class="circle" cx="1.5" cy="1.5" r="1.5" />
+
+  <!-- White Play Icon (centered triangle) -->
+  <polygon class="play" points="1,0.9 2,1.5 1,2.1" />
+</svg>
