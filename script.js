@@ -2,7 +2,7 @@ console.log("js starting")
 let newsong = new Audio()
 let songs
 let e1;
-let coverphoto="http://127.0.0.1:3000/song/playlist1/cover.jpeg"
+// let coverphoto="http://127.0.0.1:3000/song/playlist1/cover.jpeg"
 let trackname = document.querySelector(".trackname")
 let time = document.querySelector(".time")
 let play = document.getElementById("play")
@@ -14,7 +14,7 @@ let volume = document.querySelector(".volume")
 
 
 async function getfile() {
-    let songs = fetch("http://127.0.0.1:3000/song/")
+    let songs = fetch("http://127.0.0.1:3000/Music_clone/song/")
     let responce = (await songs).text()
     return responce;
 
@@ -51,7 +51,7 @@ async function playlist() {
     }
     Array.from(document.querySelector(".cards>ul").getElementsByTagName("li")).forEach((e) => {
         e.addEventListener("click", element => {
-            let playlistsong = `http://127.0.0.1:3000/song/${e.querySelector(".card").children[1].innerHTML}`
+            let playlistsong = `http://127.0.0.1:3000/Music_clone/song/${e.querySelector(".card").children[1].innerHTML}`
        
         
             main(playlistsong)
