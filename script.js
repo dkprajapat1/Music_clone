@@ -15,7 +15,6 @@ let volume = document.querySelector(".volume")
 
 async function getfile() {
     let songs = fetch("/Music_clone/song/")
-
     let responce = (await songs).text()
     return responce;
 
