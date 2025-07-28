@@ -13,8 +13,8 @@ let point = document.querySelector(".point");
 let volume = document.querySelector(".volume");
 
 // GitHub repo details - apne hisaab se replace karna
-const githubUser = "<username>";
-const githubRepo = "<repo>";  
+const githubUser = "dkprajapat1";
+const githubRepo = "Music_clone";
 const basePath = `https://api.github.com/repos/${githubUser}/${githubRepo}/contents/Music_clone/song`;
 
 async function getfile() {
