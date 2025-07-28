@@ -1,266 +1,151 @@
-console.log("js starting")
-let newsong = new Audio()
-let songs
+console.log("js starting");
+let newsong = new Audio();
+let songs = [];
 let e1;
-// let coverphoto="http://127.0.0.1:3000/song/playlist1/cover.jpeg"
-let trackname = document.querySelector(".trackname")
-let time = document.querySelector(".time")
-let play = document.getElementById("play")
-let back = document.getElementById("back")
-let next = document.getElementById("next")
-let trackbar = document.querySelector(".trackbar")
-let point = document.querySelector(".point")
-let volume = document.querySelector(".volume")
 
+let trackname = document.querySelector(".trackname");
+let time = document.querySelector(".time");
+let play = document.getElementById("play");
+let back = document.getElementById("back");
+let next = document.getElementById("next");
+let trackbar = document.querySelector(".trackbar");
+let point = document.querySelector(".point");
+let volume = document.querySelector(".volume");
+
+// GitHub repo details - apne hisaab se replace karna
+const githubUser = "<username>";
+const githubRepo = "<repo>";  
+const basePath = `https://api.github.com/repos/${githubUser}/${githubRepo}/contents/Music_clone/song`;
 
 async function getfile() {
-    let songs = fetch("/Music_clone/song/")
-    let responce = (await songs).text()
-    return responce;
+    try {
+        let res = await fetch(basePath);
+        let data = await res.json();
 
+        // Filter only mp3 files and map to download URLs
+        songs = data.filter(item => item.name.endsWith(".mp3")).map(item => item.download_url);
+        return songs;
+    } catch (error) {
+        console.error("Error fetching songs from GitHub API:", error);
+        return [];
+    }
 }
 
 async function playlist() {
-    let files = await getfile();
-    let div = document.createElement("div");
-    div.innerHTML = files;
-    let af = div.getElementsByTagName("a")
-    let pfiles = [];
-    for (let index = 1; index < af.length; index++) {
-        const element = af[index].href;
-        pfiles.push(element)
+    let songsUrls = await getfile();
 
-    }
-    
-    // ad folder to display
-    for (let file of pfiles) {
+    let pcard = document.querySelector(".cards").getElementsByTagName("ul")[0];
+    pcard.innerHTML = "";  // Clear existing cards if any
 
-        let pcard = document.querySelector(".cards").getElementsByTagName("ul")[0]
-        let photo = file
-        photo = `${file}cover.jpeg`
-        file = file.split("/song/")[1]
-        file = file.replace("/", " ")
-        pcard.innerHTML = pcard.innerHTML + `<li>
-                            <div class="card">
-                                <img src="${photo}" alt="image">
-                                <div class="playlistname">${file.replace("%20", " ")}</div>
-                                <div class="artist">Arijit singh</div>
-                                 <img class="color_play" src="svg/play_color.svg" alt="">
-                            </div>
-                            </li> `
-    }
+    songsUrls.forEach(url => {
+        let fileName = url.split('/').pop();  // Get filename from URL
+        let displayName = fileName.replace(".mp3", "").replace(/%20/g, " ");
+
+        // Assuming no subfolders, else adjust this accordingly
+        let coverUrl = `https://raw.githubusercontent.com/${githubUser}/${githubRepo}/main/Music_clone/song/cover.jpeg`; 
+        // Agar playlists ke folders hain, to cover photo path ko us hisaab se adjust karna hoga.
+
+        pcard.innerHTML += `<li>
+            <div class="card">
+                <img src="${coverUrl}" alt="image">
+                <div class="playlistname">${displayName}</div>
+                <div class="artist">Arijit Singh</div>
+                <img class="color_play" src="svg/play_color.svg" alt="">
+            </div>
+        </li>`;
+    });
+
     Array.from(document.querySelector(".cards>ul").getElementsByTagName("li")).forEach((e) => {
-        e.addEventListener("click", element => {
-            let playlistsong = `/Music_clone/song/${e.querySelector(".card").children[1].innerHTML}`
-       
-        
-            main(playlistsong)
+        e.addEventListener("click", async () => {
+            let playlistName = e.querySelector(".playlistname").innerText.trim();
 
+            // Filter songs to only those matching the clicked playlist name (if playlists exist)
+            // Here, assuming all songs are in one folder, so just play that song
+            let songToPlay = songs.find(s => s.includes(playlistName));
 
-            // function for got songs from file
-            async function getsong(link) {
-                x = link
-                let songs = fetch(x)
-                let responce = (await songs).text()
-                return responce;
-
+            if (songToPlay) {
+                playsong(songToPlay);
+            } else {
+                console.warn("Song not found in list");
             }
-
-            async function main(link) {
-                let responce = await getsong(link)
-                let div = document.createElement("div");
-                div.innerHTML = responce;
-                let as = div.getElementsByTagName("a")
-                for (let i = 0; i < as.length; i++) {
-                    // const element = as[i];
-                    if(as[i].href.endsWith(".jpeg")){
-                    
-                    // coverphoto = (as[i].href)
-                    // console.log(coverphoto)
-                    }
-                }
-
-                // store music links from file's
-                songs = [];
-                for (let index = 0; index < as.length; index++) {
-                    const element = as[index].href;
-                    if (element.endsWith(".mp3")) {
-                        songs.push(element)
-                    }
-                }
-
-                //got song from user responce 
-                function playsong(track) {
-                    newsong.pause();
-                    console.log(track)
-                    track=track.replace(" - " ,"/" )
-                    newsong.src = `song/${track}.mp3`;
-                    let track1 = track;
-                    console.log("hello")
-                    trackname.innerHTML = track1.replaceAll("/", " - ") + "..."
-                    play.src = "svg/pause.svg"
-                    newsong.play();
-                }
-
-                //playlist card and song name
-                if (document.querySelector(".playlist").getElementsByTagName("ul")[0].innerHTML !== "") {
-                    document.querySelector(".playlist>ul").innerHTML = ""
-                }
-                for (let song of songs) {
-                    let list = document.querySelector(".playlist").getElementsByTagName("ul")[0]
-                    song = song.split("/song/")[1];
-                    song = song.replaceAll("%20", " ")
-                    song = song.replaceAll("/", " - ")
-                    list.innerHTML = list.innerHTML + `<li>
-                    <img src="svg/music.svg" alt="">
-                    <div class="songname"> ${song.replaceAll(".mp3", "")}</div>
-                    <div>play</div>
-                    <img class="pplay" src="svg/play.svg" alt="">
-                    </li>`
-                }
-
-                //to set default song
-                // if (newsong.pause) {
-                //     let song = songs[3].split("/song/")[1];
-                //     song = song.replaceAll("%20", " ")
-                    
-                //     playsong(song.replaceAll(".mp3", "").trim())
-                // }
-
-
-                //send song to play function
-                a = 1;
-                Array.from(document.querySelector(".playlist>ul").getElementsByTagName("li")).forEach((e) => {
-
-                    e.addEventListener("click", element => {
-                        if (a == 1) {
-                            e.querySelector(".pplay").src = "svg/pause.svg"
-                            e.querySelector(".pplay").style.filter = "invert(0)"
-                            e.style.color = "black"
-                            e.querySelector(".playlist>ul>li img").style.filter = "invert(0)"
-                            e.style.background = "rgb(197, 197, 197)"
-                            playsong(e.querySelector(".songname").innerHTML.trim())
-
-                            a = 0;
-                        }
-                        else {
-                            e.style.background = "#0000"
-                            e.querySelector(".pplay").src = "svg/play.svg"
-                            e.querySelector(".pplay").style.filter = "invert(1)"
-                            e.style.color = "white"
-                            e.querySelector(".playlist>ul>li img").style.filter = "invert(1)"
-
-                            play.src = "svg/play.svg"
-                            newsong.pause();
-
-                            a = 1;
-                        }
-                    })
-                })
-
-                //conver time into minuts
-                function secondtominuts(time) {
-                    seconds = parseInt(time % 60);
-                    minuts = parseInt(time / 60);
-
-                    return (minuts + ":" + seconds)
-                }
-
-                function updatetrack(track) {
-                    point.style.left = `${track}%`
-
-                }
-                //input check from user
-                function usertrackinput(uinput) {
-                    newsong.currentTime = uinput * newsong.duration
-                }
-                //song time and duration
-                newsong.addEventListener("timeupdate", () => {
-                    let songDone = ((newsong.currentTime / newsong.duration) * 100)
-                    time.innerHTML = `${secondtominuts(newsong.currentTime)} / ${secondtominuts(newsong.duration)}`
-                    updatetrack(songDone)
-                })
-
-
-
-
-
-                //next and back
-
-                next.addEventListener("click", () => {
-                    //  newsong.pause();
-                    let index = (songs.indexOf(newsong.src))
-                    let length = songs.length
-                    if (index < length) {
-                        newsong.src = songs[index + 1]
-                    }
-                    let nexts = newsong.src
-                    nexts = nexts.split("/song/")[1]
-                    nexts = nexts.replaceAll("%20", " ")
-                    playsong(nexts.replace(".mp3", ""))
-                })
-
-                back.addEventListener("click", () => {
-                    //  newsong.pause();
-                    let index = (songs.indexOf(newsong.src))
-                    let length = songs.length
-                    if (index >= 0) {
-                        newsong.src = songs[index - 1]
-                    }
-                    let backs = newsong.src
-                    backs = backs.split("/song/")[1]
-                    backs = backs.replaceAll("%20", " ")
-                    playsong(backs.replace(".mp3", ""))
-                })
-
-                //track change by user
-
-                trackbar.addEventListener("click", (e) => {
-                    usertrackinput(e.offsetX / trackbar.clientWidth);
-
-                })
-            }
-        })
-    })
+        });
+    });
 }
-playlist()
-document.getElementById("hamburger").addEventListener("click", () => {
-    document.querySelector(".leftbox").style.left = "0%"
-})
-document.getElementById("close").addEventListener("click", () => {
-    document.querySelector(".leftbox").style.left = "-200%"
-})
 
-//play button
+function playsong(trackUrl) {
+    newsong.pause();
+    newsong.src = trackUrl;
+    let trackNameDisplay = trackUrl.split('/').pop().replace(".mp3", "").replace(/%20/g, " ");
+    trackname.innerHTML = trackNameDisplay + "...";
+    play.src = "svg/pause.svg";
+    newsong.play();
+}
+
+// Play button toggle
 play.addEventListener("click", () => {
     if (newsong.paused) {
-        newsong.play()
-        play.src = "svg/pause.svg"
-
-    }
-    else if (newsong.play) {
+        newsong.play();
+        play.src = "svg/pause.svg";
+    } else {
         newsong.pause();
-        play.src = "svg/play.svg"
+        play.src = "svg/play.svg";
     }
-})
+});
 
-function set_volume(){
+// Update time and track progress bar
+newsong.addEventListener("timeupdate", () => {
+    function secondtominuts(time) {
+        let seconds = parseInt(time % 60);
+        let minuts = parseInt(time / 60);
+        if(seconds < 10) seconds = "0" + seconds;
+        if(minuts < 10) minuts = "0" + minuts;
+        return (minuts + ":" + seconds);
+    }
+    let songDone = ((newsong.currentTime / newsong.duration) * 100) || 0;
+    time.innerHTML = `${secondtominuts(newsong.currentTime)} / ${secondtominuts(newsong.duration)}`;
+    point.style.left = `${songDone}%`;
+});
 
-}
-// newsong.volume = 0.1;
-document.querySelector(".volume").getElementsByTagName("img")[0].addEventListener("click" , (e)=>{
-        if( newsong.volume != 0){
-        // console.log(newsong.target.value)
-              newsong.volume = 0;
-        }
-        else{
-            newsong.volume = 0.5;
-        }
-})
-document.getElementById("volume").addEventListener("click" , (e)=>{
-    console.log(e)
-    e1=e.target.value
-    let svolume = (e.target.value)/100;
+// Seekbar click
+trackbar.addEventListener("click", (e) => {
+    let seekPercent = e.offsetX / trackbar.clientWidth;
+    newsong.currentTime = seekPercent * newsong.duration;
+});
+
+// Volume control
+document.querySelector(".volume").getElementsByTagName("img")[0].addEventListener("click", (e) => {
+    if (newsong.volume != 0) {
+        newsong.volume = 0;
+    } else {
+        newsong.volume = 0.5;
+    }
+});
+document.getElementById("volume").addEventListener("input", (e) => {
+    let svolume = e.target.value / 100;
     newsong.volume = svolume;
+});
 
-})
+// Next and back buttons
+next.addEventListener("click", () => {
+    let index = songs.indexOf(newsong.src);
+    if (index < songs.length - 1) {
+        playsong(songs[index + 1]);
+    }
+});
+back.addEventListener("click", () => {
+    let index = songs.indexOf(newsong.src);
+    if (index > 0) {
+        playsong(songs[index - 1]);
+    }
+});
+
+// Hamburger menu controls
+document.getElementById("hamburger").addEventListener("click", () => {
+    document.querySelector(".leftbox").style.left = "0%";
+});
+document.getElementById("close").addEventListener("click", () => {
+    document.querySelector(".leftbox").style.left = "-200%";
+});
+
+playlist();
+
