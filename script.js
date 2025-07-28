@@ -263,3 +263,4 @@ document.getElementById("volume").addEventListener("click" , (e)=>{
     newsong.volume = svolume;
 
 })
+
