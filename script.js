@@ -23,11 +23,16 @@ async function playlist() {
     let files = await getfile();
     let div = document.createElement("div");
     div.innerHTML = files;
+    
     let af = div.getElementsByTagName("a")
+
     let pfiles = [];
-    for (let index = 1; index < af.length; index++) {
-        const element = af[index].href;
-        pfiles.push(element)
+    for (let index = 1; index < af.length-1; index++) {
+         let element = af[index].getAttribute("href");
+
+    element = element.replaceAll("%5C", "/"); 
+     element = element.replaceAll("\\", "/"); 
+        pfiles.push("http://127.0.0.1:3000" + element)
 
     }
     
@@ -42,15 +47,16 @@ async function playlist() {
         pcard.innerHTML = pcard.innerHTML + `<li>
                             <div class="card">
                                 <img src="${photo}" alt="image">
-                                <div class="playlistname">${file.replace("%20", " ")}</div>
-                                <div class="artist">Arijit singh</div>
+                                 <div class="playlistname">${file.replace("%20", " ")}</div>
+                                 <div class="artist">Arijit singh</div>
                                  <img class="color_play" src="svg/play_color.svg" alt="">
                             </div>
                             </li> `
     }
     Array.from(document.querySelector(".cards>ul").getElementsByTagName("li")).forEach((e) => {
         e.addEventListener("click", element => {
-            let playlistsong = `/music_clone/song/${e.querySelector(".card").children[1].innerHTML}`
+            let playlistsong = `http://127.0.0.1:3000/music_clone/song/${e.querySelector(".card").children[1].innerHTML}`
+            // console.log(playlistsong);
        
         
             main(playlistsong)
@@ -70,32 +76,28 @@ async function playlist() {
                 let div = document.createElement("div");
                 div.innerHTML = responce;
                 let as = div.getElementsByTagName("a")
-                for (let i = 0; i < as.length; i++) {
-                    // const element = as[i];
-                    if(as[i].href.endsWith(".jpeg")){
-                    
-                    // coverphoto = (as[i].href)
-                    // console.log(coverphoto)
-                    }
-                }
-
+                
                 // store music links from file's
                 songs = [];
                 for (let index = 0; index < as.length; index++) {
-                    const element = as[index].href;
+                    let element = as[index].getAttribute("href");
+                    element = element.replaceAll("%5C", "/"); 
+                    element = element.replaceAll("\\", "/"); 
                     if (element.endsWith(".mp3")) {
-                        songs.push(element)
+                        // console.log("http://127.0.0.1:3000"+element);
+                        songs.push("http://127.0.0.1:3000"+element);
                     }
                 }
 
                 //got song from user responce 
                 function playsong(track) {
                     newsong.pause();
-                    console.log(track)
-                    track=track.replace(" - " ,"/" )
-                    newsong.src = `song/${track}.mp3`;
+                    track=track.replace(" - " ,"/" );
+                    console.log(track);
+                    newsong.src =track;
                     let track1 = track;
                     console.log("hello")
+                     track1 = track1.replaceAll("http://127.0.0.1:3000/Music_clone/song", " ") + "..."
                     trackname.innerHTML = track1.replaceAll("/", " - ") + "..."
                     play.src = "svg/pause.svg"
                     newsong.play();
@@ -107,38 +109,35 @@ async function playlist() {
                 }
                 for (let song of songs) {
                     let list = document.querySelector(".playlist").getElementsByTagName("ul")[0]
+
                     song = song.split("/song/")[1];
-                    song = song.replaceAll("%20", " ")
+                    song = song.replaceAll("%20"," ")
                     song = song.replaceAll("/", " - ")
                     list.innerHTML = list.innerHTML + `<li>
                     <img src="svg/music.svg" alt="">
-                    <div class="songname"> ${song.replaceAll(".mp3", "")}</div>
+                    <div>${song}</div>
                     <div>play</div>
                     <img class="pplay" src="svg/play.svg" alt="">
                     </li>`
                 }
 
-                //to set default song
-                // if (newsong.pause) {
-                //     let song = songs[3].split("/song/")[1];
-                //     song = song.replaceAll("%20", " ")
-                    
-                //     playsong(song.replaceAll(".mp3", "").trim())
-                // }
-
-
+            //    hello 
+            // hello
+           console.log(songs)
                 //send song to play function
                 a = 1;
                 Array.from(document.querySelector(".playlist>ul").getElementsByTagName("li")).forEach((e) => {
-
+                   
                     e.addEventListener("click", element => {
                         if (a == 1) {
+                        
                             e.querySelector(".pplay").src = "svg/pause.svg"
                             e.querySelector(".pplay").style.filter = "invert(0)"
                             e.style.color = "black"
                             e.querySelector(".playlist>ul>li img").style.filter = "invert(0)"
                             e.style.background = "rgb(197, 197, 197)"
-                            playsong(e.querySelector(".songname").innerHTML.trim())
+                            // console.log(e.getElementsByTagName('div')[0]);
+                            playsong("http://127.0.0.1:3000/Music_clone/song/"+e.getElementsByTagName('div')[0].innerText);
 
                             a = 0;
                         }
@@ -257,7 +256,7 @@ document.querySelector(".volume").getElementsByTagName("img")[0].addEventListene
         }
 })
 document.getElementById("volume").addEventListener("click" , (e)=>{
-    console.log(e)
+    // console.log(e)
     e1=e.target.value
     let svolume = (e.target.value)/100;
     newsong.volume = svolume;
